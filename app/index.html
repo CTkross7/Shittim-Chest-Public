@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<title>[Unofficial] 싯딤의 상자</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/GyeonggiTitleBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<script src="js/config.js"></script>
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<div id="stage" data-scene="off">
+
+  <!-- ① 전원 꺼짐 -->
+  <section id="s-off" class="scene">
+    <button id="power" aria-label="전원 켜기"><svg viewBox="0 0 24 24"><path d="M12 3v9M6.3 6.8a8 8 0 1 0 11.4 0"/></svg></button>
+  </section>
+
+  <!-- 홈 (런처 · 로비 스타일 공용 배경) -->
+  <section id="s-room" class="scene">
+    <div id="room-bg"></div>
+    <div id="room-water"></div>
+    <div id="arona">
+      <div class="act">
+        <canvas id="arona-canvas" aria-label="캐릭터"></canvas>
+      </div>
+    </div>
+
+    <!-- 배경화면 모드 시계 -->
+    <div id="wallclock"><b id="wc-time"></b><span id="wc-date"></span></div>
+
+    <!-- 런처 홈 화면 (기본) -->
+    <div id="home">
+      <div class="hw">
+        <div class="w-clock"><b id="h-time"></b><span id="h-date"></span></div>
+        <div class="w-bat" id="w-bat"><svg viewBox="0 0 44 44"><circle class="t" cx="22" cy="22" r="19"/><circle class="v" cx="22" cy="22" r="19"/></svg><i></i><span id="h-bat"></span></div>
+      </div>
+      <div id="h-pages"></div>
+      <div id="h-dots"></div>
+      <div id="h-dock"></div>
+      <button id="h-all" aria-label="전체 앱"><i></i></button>
+      <!-- 넓은 화면: 로비 하단 바 오른쪽의 시각 · [업무] 버튼 -->
+      <div id="h-batime"><small>△×+○</small><span></span></div>
+      <button id="h-work" aria-label="업무 (전체 앱 · 기기)"><img src="assets/ui/shittim.svg" alt=""><b>업무</b></button>
+      <!-- 끌 때 위쪽에 나오는 놓는 곳 -->
+      <div id="h-zones"><b data-z="remove">✕ 홈에서 제거</b><b data-z="info">ⓘ 앱 정보</b><b data-z="uninstall">🗑 삭제</b></div>
+      <!-- 편집 모드 (빈 곳 길게 누르기) -->
+      <div id="h-edit" hidden>
+        <button data-e="wall"><i>🖼</i><b>배경화면</b></button>
+        <button data-e="icon"><i>🎨</i><b>아이콘 테마</b></button>
+        <button data-e="widget"><i>🕘</i><b>위젯</b></button>
+        <button data-e="folder"><i>📁</i><b>새 폴더</b></button>
+        <button data-e="addpage"><i>➕</i><b>페이지 추가</b></button>
+        <button data-e="delpage"><i>🗑</i><b>이 페이지 삭제</b></button>
+        <button data-e="lock"><i>🔒</i><b>배치 잠금</b><small></small></button>
+        <button data-e="set"><i>⚙</i><b>홈 화면 설정</b></button>
+        <button data-e="done" class="done"><b>완료</b></button>
+      </div>
+      <!-- 앱 서랍: 모든 앱 · 페이지 넘기기 · 폴더 · 검색 -->
+      <div id="h-drawer" hidden>
+        <div class="d-top">
+          <input id="d-q" type="search" placeholder="앱 검색" autocomplete="off">
+          <button id="d-close" aria-label="닫기">✕</button>
+        </div>
+        <div id="d-tohome">여기로 끌어 올리면 홈 화면에 놓아요</div>
+        <div id="d-pages"></div>
+        <div id="d-results"></div>
+        <div id="d-dots"></div>
+      </div>
+    </div>
+
+    <!-- 로비 UI (로비 스타일 · 설정에서 선택) -->
+    <div id="lobby">
+      <header id="top">
+        <div class="acct">
+          <div class="lv"><small>Lv.</small><b id="lv">90</b></div>
+          <div class="who"><b id="sensei-name"></b><div class="exp"><i></i></div></div>
+        </div>
+        <div class="res">
+          <div class="pill ap"><img src="assets/ui/AP.svg" alt=""><span id="ap">--/100</span><em>+</em></div>
+          <button class="pill cr" data-act="clock"><img src="assets/ui/Gold.svg" alt=""><span id="clock"></span><small id="credit-date"></small></button>
+          <button class="pill py" data-act="pyro"><img src="assets/ui/Pyroxene.svg" alt=""><span id="pyro"></span></button>
+          <button class="icon" data-act="settings" aria-label="설정"><img src="assets/ui/menu.svg" alt=""></button>
+        </div>
+      </header>
+
+      <nav id="side">
+        <button data-act="notice"><img src="assets/ui/notice.svg" alt=""><span>공지사항</span></button>
+        <button data-act="mission"><img src="assets/ui/mission.svg" alt=""><span>미션</span></button>
+      </nav>
+
+
+      <footer id="dock"></footer>
+      <button id="work" data-act="drawer"><img src="assets/ui/shittim.svg" alt=""><small>ALL APPS</small><b>전체 앱</b></button>
+    </div>
+  </section>
+
+
+  <div id="choices"></div>
+
+  <!-- 업무 화면 (기기 기능 모음) -->
+  <div id="workscr" hidden>
+    <header class="wk-top">
+      <button class="wk-back" aria-label="뒤로"><svg viewBox="0 0 24 24"><path d="M20 12H5m6-7-7 7 7 7" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <b class="wk-title">업무</b>
+      <div class="wk-res">
+        <span class="r"><img src="assets/ui/AP.svg" alt=""><i class="wk-bat"></i></span>
+        <span class="r"><img src="assets/ui/Gold.svg" alt=""><i class="wk-clock"></i></span>
+      </div>
+      <button class="wk-gear" aria-label="설정"><img src="assets/ui/settings.svg" alt=""></button>
+      <button class="wk-home" aria-label="홈"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z" fill="#2a6fb8"/></svg></button>
+    </header>
+    <section class="wk-main">
+      <div class="wk-row1"></div>
+      <div class="wk-row2"><div class="wk-list"></div><div class="wk-grid"></div></div>
+    </section>
+  </div>
+
+  <!-- 캐릭터 말풍선 (로비 · 런처 · 업무 화면 공용) -->
+  <div id="bubble"><p id="bubble-text"></p></div>
+
+  <!-- 홈: 폴더 · 길게 누르기 메뉴 -->
+  <div id="folder" hidden><div class="fbox"><input class="fname" maxlength="16" aria-label="폴더 이름"><div class="fgrid"></div><div class="fcolors" aria-label="폴더 색상"></div></div></div>
+  <div id="hmenu" hidden></div>
+
+  <!-- 패널 (설정 · 미션 · 크레딧) -->
+  <div id="panel" hidden>
+    <div class="sheet">
+      <header><b id="panel-title"></b><button id="panel-close" aria-label="닫기">✕</button></header>
+      <div id="panel-body"></div>
+    </div>
+  </div>
+
+  <!-- 화면 전환 (앱 실행 · 업무 화면) -->
+  <div id="splash" aria-hidden="true"></div>
+  <!-- 업데이트 팝업 (APK) -->
+  <div id="upd" hidden>
+    <div class="box">
+      <header><b>새 버전이 도착했어요</b><span class="uv"></span></header>
+      <pre class="un"></pre>
+      <div class="bar"><i></i></div><p class="st"></p>
+      <footer><button data-k="later">나중에</button><button data-k="go" class="y">업데이트</button></footer>
+    </div>
+  </div>
+  <div id="fade"></div>
+  <canvas id="tapfx" aria-hidden="true"></canvas>
+  <p id="legal"><b>[Unofficial]</b> 싯딤의 상자 · 비공식 팬메이드 · 개발 <b>CTkross</b></p>
+</div>
+</body>
+</html>

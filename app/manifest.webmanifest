@@ -1,0 +1,15 @@
+{
+ "name": "[Unofficial] 싯딤의 상자",
+ "short_name": "싯딤의 상자 (비공식)",
+ "description": "비공식 팬메이드 런처 · 개발 CTkross",
+ "start_url": "./",
+ "display": "fullscreen",
+ "orientation": "any",
+ "background_color": "#000000",
+ "theme_color": "#000000",
+ "icons": [
+  { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+  { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+  { "src": "assets/img/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+ ]
+}

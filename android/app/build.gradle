@@ -1,0 +1,51 @@
+plugins { id 'com.android.application' }
+
+// 빌드 번호: GitHub Actions 의 run_number (로컬 빌드는 1)
+def buildNo = (System.getenv('BUILD_NUMBER') ?: '1') as int
+
+android {
+    namespace 'com.ctkross.shittimchest'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.ctkross.shittimchest'
+        minSdk 26
+        targetSdk 35
+        versionCode buildNo
+        versionName "0.1.${buildNo}"
+        buildConfigField 'String', 'UPDATE_REPO', '"CTkross7/Shittim-Chest-Public"'
+        buildConfigField 'String', 'COMMIT', "\"${System.getenv('GITHUB_SHA') ?: 'local'}\""
+    }
+    // 서명 키는 저장소에 넣지 않는다: GitHub Secrets(KEYSTORE_BASE64 · KEYSTORE_PASSWORD · KEY_ALIAS) → android/release.jks
+    // 업데이트가 덮어써지려면 항상 같은 키여야 한다. 키가 없으면 디버그 키로 서명(테스트용).
+    def ks = file('../release.jks')
+    def ksPass = System.getenv('KEYSTORE_PASSWORD')
+    def hasKey = ks.exists() && ksPass
+    signingConfigs {
+        if (hasKey) {
+            release {
+                storeFile ks
+                storePassword ksPass
+                keyAlias System.getenv('KEY_ALIAS') ?: 'shittimchest'
+                keyPassword ksPass
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig hasKey ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+    buildFeatures { buildConfig true }
+    // 웹앱(app/)을 그대로 APK 에 넣는다 → 인터넷 없이 동작
+    sourceSets { main { assets.srcDirs += ['../../app'] } }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    applicationVariants.all { v ->
+        v.outputs.all { outputFileName = "ShittimChest-Unofficial-${v.versionName}.apk" }
+    }
+}
+
+// 외부 라이브러리 없음 (안드로이드 기본 API 만 사용)
