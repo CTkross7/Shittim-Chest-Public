@@ -1,7 +1,7 @@
 // [Unofficial] 싯딤의 상자 — 비공식 팬메이드 런처 (개발: CTkross)
 // 넥슨 · 블루 아카이브 공식과 관련이 없습니다. 캐릭터 · 대사 · 배경은 캐릭터 팩(app/packs)에서 읽는다.
 import { Audio } from './audio.js';
-import { StillRig } from './stillrig.js';
+import { CharaRig } from './rig.js';
 import { TapFx } from './tapfx.js';
 import { createHome } from './home.js';
 import { createWork } from './work.js';
@@ -110,7 +110,7 @@ function applyCharaLook() {
   document.documentElement.style.setProperty('--chara-icon', p.icon ? `url("${new URL(p.icon, location.href).href}")` : 'none');
   rig.expr(p.face0);
 }
-const rig = new StillRig($('#arona-canvas'), null);
+const rig = new CharaRig($('#arona-canvas'));
 rig.face0 = CH().face0; rig.setModel(modelOf(CH(), POSE));
 applyCharaLook();
 window.__rig = rig; window.__audio = audio;   // 디버그/테스트용
@@ -352,7 +352,7 @@ const PYRO = {
   days: ['선생님과 함께한 날', () => { const t = store.get('firstMet', Date.now()); store.set('firstMet', t); return 'D+' + (Math.floor((Date.now() - t) / 864e5) + 1); }],
   uptime: ['기기를 켠 지', () => { const ms = isNative ? NV.device().uptime : performance.now(); const h = Math.floor(ms / 36e5); return h >= 24 ? Math.floor(h / 24) + '일' : h + '시간'; }],
 };
-/** 'D+' 칸 이름은 지금 캐릭터 이름으로 (루미와 함께한 날 …) */
+/** 'D+' 칸 이름은 지금 캐릭터 이름으로 (아로나와 함께한 날 …) */
 const pyroLabel = (k) => (k === PYRO.days ? `${CH().name}${josa(CH().name, '와', '과')} 함께한 날` : k[0]);
 let pyroAt = 0;
 function pyro(force = false) {
@@ -611,10 +611,11 @@ const CREDITS = () => [
   ['캐릭터 팩', CHARS.map((c) => [`${c.name} — ${c.packName || c.pack}`, REPO, `${c.author ? '제작 ' + c.author + ' · ' : ''}${c.license || ''}`])],
   ['원작 표기', [
     ['블루 아카이브 (NEXON Games / NEXON Korea)', 'https://bluearchive.nexon.com', '이 앱은 비공식 팬메이드이며 공식과 관련이 없습니다. 블루 아카이브 관련 권리는 NEXON Games 에 있습니다'],
+    ['블루 아카이브 공식 YouTube', 'https://www.youtube.com/channel/UCj0iColXMAjPA92rH-AXVGQ', '배경음: 블루 아카이브 공식 OST (홈 · 업무 화면)'],
     ['넥슨 게임 IP 사용 가이드', 'https://member.nexon.com/policy/gameipguide.aspx', ''],
   ]],
   ['소프트웨어 · 글꼴', [
-    ['Simple Icons', 'https://simpleicons.org', '앱 아이콘의 로고 모양 (CC0) · 각 로고의 상표권은 해당 회사 소유'],
+    ['Simple Icons', 'https://simpleicons.org', '블아 스타일 앱 아이콘의 로고 모양 (CC0) · 각 로고의 상표권은 해당 회사 소유'],
     ['경기천년체', 'https://www.gg.go.kr/contents/contents.do?ciIdx=679&menuId=2457', '경기도 · 무료 배포 서체'],
     ['Zen Dots · Anton (Google Fonts)', 'https://fonts.google.com/specimen/Zen+Dots', 'SIL Open Font License'],
   ]],
@@ -633,7 +634,7 @@ function openNotice(first) {
     <div class="notice-box">
       <p>이 앱은 <b>비공식 팬메이드 런처</b>입니다. <b>NEXON Games · NEXON Korea</b> 및 블루 아카이브 공식과 <b>관련이 없습니다.</b></p>
       <p>비영리 · 무료로 배포됩니다. 유료로 판매하거나 대가를 받고 배포하는 것은 허용되지 않습니다.</p>
-      <p>게임에서 추출한 리소스(모델 · 음성 · 음악 · 그림)는 들어 있지 않습니다. 캐릭터와 대사는 캐릭터 팩에서 불러옵니다.</p>
+      <p>게임에서 추출한 리소스(모델 · 음성 · 그림 · 효과음)는 들어 있지 않습니다. 아로나 그림과 교실 배경은 새로 그린 팬아트이고, 대사는 직접 썼습니다. 배경음은 블루 아카이브 공식 OST 로, 출처를 표기합니다.</p>
       <p>앱은 설치된 앱 목록 · 배터리 상태를 기기 안에서만 사용하고, 어떤 정보도 밖으로 보내지 않습니다. 인터넷은 새 버전 확인(GitHub)에만 씁니다.</p>
     </div>
     <div class="pick-bar" style="justify-content:center"><button class="btn y" id="notice-ok">${first ? '확인했어요' : '닫기'}</button></div>`;
@@ -724,7 +725,7 @@ const VOICE = PACK_LINES;      // 캐릭터 팩의 대사 (chara.json 의 lines)
 const pickOne = (L) => L[(Math.random() * L.length) | 0];
 /** 대사 속 이름 자리 ([USERNAME] · {name}). 호칭을 비워 두면 '선생님'만 남긴다 */
 const nameIn = (t) => t.replace(/(\[USERNAME\]|\{name\})\s*/g, state.name ? state.name + ' ' : '');
-/** 받침에 따라 조사 고르기 (루미와 / ○○과 …) */
+/** 받침에 따라 조사 고르기 (아로나와 / ○○과 …) */
 function josa(w, a, b) { const c = (w || '').charCodeAt(w.length - 1) - 0xac00; return c >= 0 && c <= 11171 && c % 28 ? b : a; }
 const mood = { state: 'normal', last: performance.now(), timer: 0 };
 let exprTimer;

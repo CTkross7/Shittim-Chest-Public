@@ -23,7 +23,7 @@ export async function loadPacks() {
       const id = c.id || cid;
       const poses = {};
       for (const [k, p] of Object.entries(c.poses)) {
-        poses[k] = { base: base + (p.dir || ''), w: p.w, h: p.h, layers: p.layers || {}, anchor: p.anchor || {}, face0: c.face0 };
+        poses[k] = { rig: p.rig || 'still', base: base + (p.dir || ''), w: p.w, h: p.h, layers: p.layers || {}, faces: p.faces || {}, anchor: p.anchor || {}, face0: c.face0 };
       }
       CHARS.push({
         id, base, pack: pid, packName: pack.name, author: pack.author, license: pack.license,
@@ -31,7 +31,7 @@ export async function loadPacks() {
         icon: c.icon ? base + c.icon : '', face0: c.face0, poses, pose0: c.pose0 || Object.keys(poses)[0],
         breath: c.breath ?? 3.6, sway: c.sway ?? 0.5, bob: c.bob ?? 0.4, neck: c.neck, cx: c.cx,
         tap: c.tap || ['jump'], head: c.head || ['nod'], em: c.em || [], talkEvery: c.talkEvery || 60,
-        moods: c.moods || null,
+        moods: c.moods || null, bgm: c.bgm ? Object.fromEntries(Object.entries(c.bgm).map(([k, v]) => [k, v.startsWith('packs/') ? v : root + v])) : null,
       });
       LINES[id] = c.lines || {};
       SITU[id] = c.situ || {};

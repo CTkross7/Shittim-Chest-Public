@@ -693,12 +693,12 @@ export function createHome(ctx) {
     const n = all.filter((a) => custom[keyOf(a)]).length;
     const body = ctx.sheet('아이콘 편집', `<p class="cr-note">앱을 누르면 아이콘을 바꿔요 (갤러리 이미지 · UI 아이콘). 바꾼 앱 ${n}개.</p>
       <div class="pick-list">${all.map((a, i) => `<button class="pick${custom[keyOf(a)] ? ' on' : ''}" data-i="${i}"><span class="ic">${iconImg(a)}</span><b>${esc(nameOf(a))}</b></button>`).join('')}</div>
-      <div class="pick-bar"><button class="btn" id="ie-auto">추천 아이콘 자동 적용</button><button class="btn" id="ie-reset">모두 원래대로</button><button class="btn y" id="ie-done">완료</button></div>`);
+      <div class="pick-bar"><button class="btn" id="ie-auto">블아 스타일 아이콘 자동 적용</button><button class="btn" id="ie-reset">모두 원래대로</button><button class="btn y" id="ie-done">완료</button></div>`);
     body.querySelector('#ie-auto').addEventListener('click', async () => {
-      // 아직 바꾸지 않은 앱 중 추천 아이콘이 있는 앱만
+      // 아직 바꾸지 않은 앱 중 블아 스타일 아이콘이 있는 앱만
       const m = store.get('icons', {}); let n = 0;
       for (const a of all) { if (m[keyOf(a)]) continue; const s2 = await suggest(NV, a); if (s2.length) { m[keyOf(a)] = s2[0].v; n++; } }
-      store.set('icons', m); audio.play('SE_Confirm_02'); render(); iconEditor(); bubble(n ? `${n}개 앱에 추천 아이콘을 입혔어요!` : '바꿀 수 있는 앱이 없었어요.');
+      store.set('icons', m); audio.play('SE_Confirm_02'); render(); iconEditor(); bubble(n ? `${n}개 앱에 블아 스타일 아이콘을 입혔어요!` : '바꿀 수 있는 앱이 없었어요.');
     });
     body.querySelector('.pick-list').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) { audio.play('UI_Button_Touch'); iconPicker(all[+b.dataset.i], iconEditor); } });
     body.querySelector('#ie-done').addEventListener('click', () => { audio.play('UI_Button_Touch'); ctx.closeSheet(); });

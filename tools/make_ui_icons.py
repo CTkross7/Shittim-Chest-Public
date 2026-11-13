@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """UI 아이콘 세트 (자체 제작 SVG) — app/assets/ui/<이름>.svg
 
-원작 게임의 UI 아이콘 대신 쓰는 단순한 선 아이콘이다. 이름은 코드가 쓰는 이름 그대로.
+블아 스타일 카드 위의 선 아이콘. 게임에서 추출한 아이콘이 아니다. 이름은 코드가 쓰는 이름 그대로.
     python3 tools/make_ui_icons.py
 """
 import os
@@ -30,7 +30,7 @@ G = {
     'gallery': '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M4 17l5-5 4 4 3-3 4 4"/>',
     'tablet': '<rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M8.5 7.5h7M8.5 10.5h7M8.5 13.5h4"/>',
     'shop': '<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0A2.7 2.7 0 0 0 20 9"/><path d="M5 11v9h14v-9M10 20v-5h4v5"/>',
-    'store24': '<path d="M4 9l1.5-5h13L20 9v11H4z"/><path d="M4 9h16"/><text x="12" y="17.5" font-size="7" font-family="sans-serif" font-weight="700" text-anchor="middle" fill="#2f7ad8" stroke="none">24</text>',
+    'store24': '<path d="M4 9l1.5-5h13L20 9v11H4z"/><path d="M4 9h16"/><text x="12" y="17.5" font-size="7" font-family="sans-serif" font-weight="700" text-anchor="middle" fill="#2b4466" stroke="none">24</text>',
     'bag': '<path d="M5 8h14l-1 12.5H6z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/>',
     'wallet': '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 9.5h18"/><rect x="14.5" y="12" width="4.5" height="3.5" rx="1"/><path d="M6 6l9-2.5 1 2.5"/>',
     'tag': '<path d="M3.5 12.5V4h8.5l8.5 8.5-8.5 8.5z"/><circle cx="8" cy="8.5" r="1.6"/>',
@@ -44,9 +44,9 @@ G = {
     'cloud': '<path d="M7 18.5a4 4 0 0 1-.6-8 5.5 5.5 0 0 1 10.6-1.5A4.5 4.5 0 0 1 17 18.5z"/>',
     'shield': '<path d="M12 3l7.5 3v6c0 4.5-3.2 7.6-7.5 9-4.3-1.4-7.5-4.5-7.5-9V6z"/><path d="M8.7 12.2l2.3 2.3 4.3-4.6"/>',
     'sword': '<path d="M19.5 4.5L9 15l-1.5-1.5L18 3h1.5z"/><path d="M6 12.5l5.5 5.5M5 19l2.5-2.5M4 17.5L6.5 20"/>',
-    'question': '<circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.6 2.4c-.8.4-1.1 1-1.1 1.8v.6"/><circle cx="12" cy="17" r=".6" fill="#2f7ad8"/>',
-    # 앱 마크: 상자 + 반짝임 (자체 디자인)
-    'shittim': '<path d="M3.5 9.5L12 5l8.5 4.5v9L12 23l-8.5-4.5z" transform="translate(0 -1.5)"/><path d="M3.5 8L12 12.5 20.5 8M12 12.5V21.5"/><path d="M18.5 2.5v3M17 4h3"/>',
+    'question': '<circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.6 2.4c-.8.4-1.1 1-1.1 1.8v.6"/><circle cx="12" cy="17" r=".6"/>',
+    # 싯딤의 상자 엠블럼
+    'shittim': '<g transform="translate(6.6 2) scale(.0278)" stroke="none" fill="#2b4466"><g transform="matrix(1,0,0,-1,0,774.1883)"><path d=\"M504.50196 647.7583H0L83.70996 774.1883H420.792L504.50196 647.7583Z\"/><path d=\"M419.91529 516.004 504.50233 640.801H335.32826L419.91529 516.004Z\"/><path d=\"M340.12477 393.39 254.68482 265.89 87.13477 519.51 172.6748 647.16006 340.12477 393.39Z\"/><path d=\"M511.2246 134.08997 427.51466 0H92.40454L8.69458 134.08997 93.28467 258.89 177.86463 134.08997H341.76466L259.01466 259.34999 344.44459 386.83998 511.2246 134.08997Z\"/></g></g>',
 }
 
 # 자원 아이콘 (타일 없이 색 아이콘)
@@ -58,10 +58,18 @@ RES = {
 
 
 def tile(glyph):
+    # 블아 스타일 카드 (tools/ba_icons.js 와 같은 모양): 흰 → 하늘색 카드 · 남색 테두리 · 아래 대각선 띠 · 헤일로 · 남색 선 그림 + 하늘색 그림자
+    g = f'<g fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{glyph}</g>'
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">'
-            '<defs><linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e3f0fd"/></linearGradient></defs>'
-            '<rect x="4" y="4" width="88" height="88" rx="22" fill="url(#t)" stroke="#bcd8f5" stroke-width="2"/>'
-            f'<g transform="translate(18 18) scale(2.5)" fill="none" stroke="{C}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{glyph}</g></svg>\n')
+            '<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".62" stop-color="#eef8ff"/><stop offset="1" stop-color="#cdeeff"/></linearGradient>'
+            '<clipPath id="c"><rect x="7" y="7" width="82" height="82" rx="20"/></clipPath></defs>'
+            '<rect x="7" y="9" width="82" height="82" rx="20" fill="#16304f" opacity=".22"/>'
+            '<rect x="7" y="7" width="82" height="82" rx="20" fill="url(#bg)"/>'
+            '<g clip-path="url(#c)"><path d="M0 74 L96 56 L96 96 L0 96 Z" fill="#3dd2f9" opacity=".55"/><path d="M0 78 L96 60 L96 63 L0 81 Z" fill="#ffffff" opacity=".85"/>'
+            '<path d="M12 20 l6 -10 l6 10 z" fill="#3dd2f9" opacity=".35"/><path d="M80 70 l4 -7 l4 7 z" fill="#ffffff" opacity=".7"/></g>'
+            '<rect x="7" y="7" width="82" height="82" rx="20" fill="none" stroke="#2b4466" stroke-width="3"/>'
+            '<ellipse cx="73" cy="17" rx="12" ry="4.2" fill="none" stroke="#3dd2f9" stroke-width="2.4" transform="rotate(-14 73 17)"/>'
+            f'<g transform="translate(24 22) scale(2)"><g transform="translate(.6 .6)" stroke="#3dd2f9">{g}</g><g stroke="#2b4466">{g}</g></g></svg>\n')
 
 
 def plain(body):

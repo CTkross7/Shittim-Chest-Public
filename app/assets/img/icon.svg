@@ -1,13 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cc8ff"/><stop offset="1" stop-color="#2f7ad8"/></linearGradient>
-    <linearGradient id="lid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e3f0fd"/></linearGradient>
-  </defs>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9f8ff"/><stop offset=".55" stop-color="#bfe8ff"/><stop offset="1" stop-color="#63c3f5"/></linearGradient></defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <ellipse cx="256" cy="118" rx="96" ry="24" fill="none" stroke="#ffffff" stroke-width="14" opacity=".9"/>
-  <path d="M106 222 L256 150 L406 222 L406 372 L256 444 L106 372 Z" fill="url(#lid)"/>
-  <path d="M106 222 L256 294 L406 222" fill="none" stroke="#2f7ad8" stroke-width="16" stroke-linejoin="round"/>
-  <path d="M256 294 V444" stroke="#2f7ad8" stroke-width="16"/>
-  <path d="M106 222 L256 150 L406 222 L406 372 L256 444 L106 372 Z" fill="none" stroke="#2f7ad8" stroke-width="16" stroke-linejoin="round"/>
-  <path d="M380 120 v52 M354 146 h52" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>
+  <ellipse cx="256" cy="96" rx="92" ry="22" fill="none" stroke="#3dd2f9" stroke-width="12" opacity=".9"/>
+  <g transform="translate(150 132) scale(.41)"><g transform="matrix(1,0,0,-1,0,774.1883)" fill="#2b4466"><path d="M504.50196 647.7583H0L83.70996 774.1883H420.792L504.50196 647.7583Z"/><path d="M419.91529 516.004 504.50233 640.801H335.32826L419.91529 516.004Z"/><path d="M340.12477 393.39 254.68482 265.89 87.13477 519.51 172.6748 647.16006 340.12477 393.39Z"/><path d="M511.2246 134.08997 427.51466 0H92.40454L8.69458 134.08997 93.28467 258.89 177.86463 134.08997H341.76466L259.01466 259.34999 344.44459 386.83998 511.2246 134.08997Z"/></g></g>
 </svg>

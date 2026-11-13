@@ -3,7 +3,7 @@
 캐릭터 · 대사 · 배경 · 배경음은 모두 **팩**에서 읽습니다. 코어 앱에는 넥슨 IP 가 없습니다.
 
 ```
-app/packs/index.json                 { "packs": ["default", "<내 팩>"] }
+app/packs/index.json                 { "packs": ["arona", "<내 팩>"] }
 app/packs/<팩>/pack.json             { id, name, version, author, license, chars: ["<캐릭터 id>"] }
 app/packs/<팩>/CREDITS.md            작가 · 허락 내역
 app/packs/<팩>/bg/*.(svg|png|jpg|webp)
@@ -14,7 +14,14 @@ app/packs/<팩>/chara/<id>/voice/*.ogg  (선택)
 
 > 팩의 모든 파일은 [ASSETS.md](../ASSETS.md) 에 등록해야 빌드됩니다. 다른 사람의 그림 · 목소리를 쓸 때는 반드시 허락을 받고 `CREDITS.md` 에 남겨 주세요.
 
-## 그림 레이어 규칙 (StillRig)
+## 리그 종류
+
+| `rig` | 그림 | 움직임 |
+|---|---|---|
+| `"layers"` (아로나 팬 팩) | 파트별 레이어 `back · body · face · hair · ribbon · halo` + `layers.json` (`tools/rig/make_layers.py` 가 만든다) | 머리 회전 · 머리카락/리본 흔들림 · 헤일로 · 셰이더 눈 깜빡임 · 입 모양. 표정은 `faces: {이름: {lid, mouth}}` |
+| `"still"` (기본값) | 몸통 + 표정 레이어 (아래) | 화면 휘기 셰이더 숨쉬기 · 흔들림, 레이어 깜빡임 · 립싱크 |
+
+## 그림 레이어 규칙 (rig: "still")
 
 - 한 포즈의 모든 레이어는 **같은 캔버스 크기 · 같은 위치**의 투명 PNG(또는 SVG)입니다.
 - `body` 몸통(머리 · 머리카락 · 옷). 얼굴 부분은 비워 두거나 기본 얼굴을 그려도 됩니다.
@@ -28,7 +35,7 @@ app/packs/<팩>/chara/<id>/voice/*.ogg  (선택)
 
 ```jsonc
 {
-  "id": "lumi", "name": "루미", "affil": "소속 (설정 화면에 표시)",
+  "id": "mychara", "name": "내 캐릭터", "affil": "소속 (설정 화면에 표시)",
   "color": "#4a9be8",            // 테마 색 (전환 화면 · 카드)
   "icon": "icon.svg",            // 프로필 (정사각형)
   "face0": "normal",             // 기본 표정

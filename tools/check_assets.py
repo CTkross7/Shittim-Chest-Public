@@ -15,7 +15,7 @@ EXT = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.ogg', '.mp3', '.wav',
        '.skel', '.atlas', '.moc3', '.psd', '.mp4', '.webm', '.bmp', '.ico'}
 SKIP_DIRS = {'.git', 'node_modules', 'build', '.gradle'}
 # 이름만 봐도 원작 추출물로 보이는 파일 (장부에 있어도 막는다)
-BANNED = re.compile(r'(^|/)(BG_|FX_TEX_|Theme_\d|SE_|UI_Button|Emo_|CH\d{4}|.*_spr\.|arona_|plana_|Arona_Work|Plana_Work)', re.I)
+BANNED = re.compile(r'(^|/)(BG_|FX_TEX_|Theme_\d|SE_|UI_Button|Emo_|CH\d{4})|_spr\.|_workpage|(Arona|Plana)_Work', re.I)
 
 
 def ledger():

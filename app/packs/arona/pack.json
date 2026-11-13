@@ -1,0 +1,10 @@
+{
+ "id": "arona",
+ "name": "아로나 팬 팩",
+ "version": 1,
+ "author": "CTkross",
+ "license": "팬아트 (AI로 새로 그린 그림 · 직접 쓴 대사) · 블루 아카이브 © NEXON Games",
+ "chars": [
+  "arona"
+ ]
+}

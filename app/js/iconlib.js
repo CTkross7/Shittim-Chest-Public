@@ -1,9 +1,8 @@
-// 아이콘 라이브러리 — 앱 자체 UI 아이콘(assets/ui, 자체 제작) + 갤러리에서 고른 그림.
-// (예전 저장값 'lib:' · 'ba:' 는 그림이 없으면 기본 아이콘으로 보인다)
-// 선택 값(store 'icons' 에 저장): 'ui:<이름>' | dataURL(갤러리)
+// 아이콘 라이브러리 — 블아 스타일 앱 아이콘(assets/icons/ba, Simple Icons CC0 로고로 직접 만든 것) + UI 아이콘(assets/ui, 자체 제작) + 갤러리 그림.
+// 선택 값(store 'icons' 에 저장): 'ba:<이름>' | 'ui:<이름>' | dataURL(갤러리)
 
 export const KINDS = [
-  ['all', '전체'], ['ui', 'UI 아이콘'],
+  ['all', '전체'], ['ba', '블아 스타일 앱'], ['ui', 'UI 아이콘'],
 ];
 export const TAGS = [
   ['game', '게임'], ['sns', 'SNS · 메신저'], ['media', '음악 · 영상'], ['photo', '사진'], ['shop', '쇼핑 · 금융'],
@@ -22,10 +21,15 @@ const UI_TAGS = {
 let LIB = null;
 async function load(NV) {
   if (LIB) return LIB;
-  LIB = NV.UI_ICONS.map((n) => ({ v: 'ui:' + n, src: `assets/ui/${n}.svg`, n, k: 'ui', t: UI_TAGS[n] || [] }));
+  let ba = [];
+  try { ba = await (await fetch('data/ba-icons.json')).json(); } catch (_) { /* 없음 */ }
+  LIB = [
+    ...ba.map((x) => ({ v: 'ba:' + x.i, src: `assets/icons/ba/${x.i}.webp`, n: x.n, k: 'ba', t: x.t || [], m: x.m || '' })),
+    ...NV.UI_ICONS.map((n) => ({ v: 'ui:' + n, src: `assets/ui/${n}.svg`, n, k: 'ui', t: UI_TAGS[n] || [] })),
+  ];
   return LIB;
 }
-/** 이 앱에 맞는 추천 아이콘 (패키지 · 이름으로 찾음) */
+/** 이 앱에 맞는 블아 스타일 아이콘 (패키지 · 이름으로 찾음) */
 export async function suggest(NV, a) {
   const all = await load(NV), s = `${a.pkg || a.url || ''} ${a.label || a.name || ''}`;
   return all.filter((x) => x.m && (() => { try { return new RegExp(x.m, 'i').test(s); } catch (_) { return false; } })());
